@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import UserPost from './views/UserPost.vue'
+import Chat from './views/Chat.vue'
+import Home from './views/Home.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
-  routes: [{ path: '/users/:username/posts/:postId', component: UserPost }],
+  routes: [{ path: '/:username', component: Chat },
+  { path: '/', component: Home }],
 })

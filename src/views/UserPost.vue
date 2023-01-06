@@ -1,5 +1,5 @@
 <template>
   <div>
-    User {{ $route.params.username }} with post {{ $route.params.postId }}
+    User {{ $route.params.username }}
   </div>
 </template>
