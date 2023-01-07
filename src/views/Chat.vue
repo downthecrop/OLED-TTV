@@ -7,8 +7,10 @@
       </button>
       <span class="modal__title">Settings</span>
       <div class="modal__content">
-        <p>Vue Final Modal is a renderless, stackable, detachable and lightweight modal component.</p>
-        Something <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <p>Something <input type="checkbox" id="vehicle2" name="vehicle2" value="Car"></p>
+        <p>Something2 <input type="checkbox" id="vehicle2" name="vehicle2" value="Car"></p>
+        <p>Something3 <input type="checkbox" id="vehicle2" name="vehicle2" value="Car"></p>
+        <p>Something4 <input type="checkbox" id="vehicle2" name="vehicle2" value="Car"></p>
       </div>
     </vue-final-modal>
     <v-button @click="showModal = true">Open modal</v-button>
@@ -43,7 +45,12 @@ export default {
       messages: [],
       showModal: false,
       scrollHint: false,
-      MAX_SCROLLBACK: 500,
+      maxScrollback: localStorage.getItem("maxScrollback") || 500,
+      textSize: localStorage.getItem("textSize") || "1.8rem",
+      emoteSize: localStorage.getItem("emoteSize") || "1vw",
+      showBadges: localStorage.getItem("showTimestamps") || true,
+      showBadges: localStorage.getItem("showBadges") || true,
+      badgeSize: localStorage.getItem("badgeSize") || "1vw",
     }
   },
   methods: {
@@ -75,6 +82,7 @@ export default {
       - Add a font size slider
       - Slider for max width before wrapping
       - Add timestamps
+      - New messages on the bottom or on the top?
     
     - catch banned users and delete messages
     */
@@ -124,7 +132,7 @@ export default {
       }
 
       this.messages.push(m)
-      if(this.messages.length > this.MAX_SCROLLBACK)
+      if(this.messages.length > this.maxScrollback)
         this.messages.shift()
       if (!this.scrollHint) {
         this.$nextTick(this.scrollToBottom)
