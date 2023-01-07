@@ -1,5 +1,5 @@
 <template>
-<div class="w-96 pt-40 mx-auto">
+<div class="w-full p-36 pt-40 mx-auto">
   <div class="uppercase mb-2 text-xs tracking-wider font-semibold" style="color: rgb(93, 137, 179);">Project</div>
   <div class="font-bold text-white text-3xl leading-tightest mb-4">OLED-TTV</div>
   <form @submit.prevent="openChat"> 
@@ -79,7 +79,7 @@ export default {
         this.placeholderTyping = this.placeholder == "";
       } else {
         if(this.placeholder == this.placeholderNames[0]){
-          this.placeholderNames.push(this.placeholderNames.shift().replaceAll(" ",""));
+          this.placeholderNames.push(this.placeholderNames.shift());
           this.placeholderNames[0] = this.placeholderNames[0] + "...     "
           this.placeholderTyping = false;
         } else {
@@ -89,7 +89,7 @@ export default {
     }
   },
   created() {
-    // Just a cute little animation on the search box
+    // Just a cute little animation on the search box. shuffle the names first.
     this.placeholderNames.sort(function(){return 0.5 - Math.random()});
     const connectionTimeout = setInterval(this.autoTypePleaceholder, 180);
   }

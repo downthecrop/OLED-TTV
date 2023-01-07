@@ -4,7 +4,7 @@
     <div v-if="scrollHint" class="scrollToBottomHint" @click="scrollToBottom">
       <p style="text-align:center;">Scroll to bottom</p>
     </div>
-    <div v-for="message in messages">
+    <div class="break-all" v-for="message in messages">
       <p class="author" :style='`color: ${message.color};`'>
       <div class="badges" v-for="badge in message.badges">
         <img class="badge mx-1" :src=badge.img :title=badge.info />
@@ -24,6 +24,7 @@ export default {
     return {
       messages: [],
       scrollHint: false,
+      MAX_SCROLLBACK: 500,
     }
   },
   methods: {
@@ -94,13 +95,18 @@ export default {
         color: userstate.color,
       }
 
+      console.log(m.html)
+
       // Replace "<img class" with the "<img title='' class" to let users 
       // to hover over to see what the emote code is
-      for (const emotes of m.emotes) {
-        m.html = m.html.replace("<img class=", `<img title="${emotes.code}" class=`);
+      for (const emote of m.emotes) {
+        const re = new RegExp(`<img class="message-emote" ?src="${emote.img}"/>`,'g');
+        m.html = m.html.replaceAll(re, `<img title="${emote.code}" class="message-emote" src="${emote.img}"/>`);
       }
 
       this.messages.push(m)
+      if(this.messages.length > this.MAX_SCROLLBACK)
+        this.messages.shift()
       if (!this.scrollHint) {
         this.$nextTick(this.scrollToBottom)
       }
