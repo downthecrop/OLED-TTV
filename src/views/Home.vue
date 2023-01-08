@@ -74,13 +74,14 @@ export default {
       this.$router.push(this.channel)
     },
     autoTypePleaceholder: function(){
+      const EXTENSION = "...     "
       if(!this.placeholderTyping){
         this.placeholder = this.placeholder.substring(0,this.placeholder.length-1);
         this.placeholderTyping = this.placeholder == "";
       } else {
         if(this.placeholder == this.placeholderNames[0]){
-          this.placeholderNames.push(this.placeholderNames.shift());
-          this.placeholderNames[0] = this.placeholderNames[0] + "...     "
+          this.placeholderNames.push(this.placeholderNames.shift().replace(EXTENSION,""));
+          this.placeholderNames[0] = this.placeholderNames[0] + EXTENSION
           this.placeholderTyping = false;
         } else {
           this.placeholder += this.placeholderNames[0][this.placeholder.length]
@@ -88,16 +89,16 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     // Just a cute little animation on the search box. shuffle the names first.
     this.placeholderNames.sort(function(){return 0.5 - Math.random()});
-    const connectionTimeout = setInterval(this.autoTypePleaceholder, 180);
+    setInterval(this.autoTypePleaceholder, 180);
   }
 }
 
 </script>
 
-<style>
+<style scoped>
 :root {
   --font-base: "Inter", "Roobert", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-display: "Roobert", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;

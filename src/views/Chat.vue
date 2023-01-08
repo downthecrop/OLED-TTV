@@ -7,12 +7,17 @@
         </button>
         <span class="modal__title">Settings</span>
         <div class="modal__content">
-          <p>Show Timesamps <input type="checkbox" v-model="showTimestamps"></p>
-          <p>Show Badges <input type="checkbox" v-model="showBadges"></p>
-          <p>Max Message History <input type="number" v-model="maxScrollback"></p>
-          <p>Text Size <input type="number" v-model="textSize"></p>
-          <p>Emote Size <input type="number" v-model="emoteSize"></p>
-          <p>Badge Size <input type="number" v-model="badgeSize"></p>
+          <p>Show Timesamps <input class="accent-pink-500" type="checkbox" v-model="showTimestamps"></p>
+          <p>Show Badges <input class="accent-pink-500" type="checkbox" v-model="showBadges"></p>
+          <p>Max Message History <input
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              type="number" v-model="maxScrollback"></p>
+          <p>Font Size <input
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              type="number" v-model="fontSize" placeholder="2"></p>
+          <p>Emote Size <input
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              type="number" v-model="emoteSize" placeholder="2"></p>
         </div>
       </vue-final-modal>
       <v-button @click="showModal = true">Open modal</v-button>
@@ -21,13 +26,15 @@
     <div v-if="scrollHint" class="scrollToBottomHint" @click="scrollToBottom">
       <p style="text-align:center;">Scroll to bottom</p>
     </div>
-    <div class="break-all" v-for="message in messages">
-      <p class="author" :style='`color: ${message.color};`'>
-      <div class="badges" v-for="badge in message.badges">
+    <div class="break-all cm-parent" v-for="message in messages">
+      <div class="author">
+      <div v-if="showTimestamps" class="inline-block align-baseline text-gray-300" >{{ message.timestamp }}</div>
+      <div v-if="showBadges" class="badges" v-for="badge in message.badges">
         <img class="badge mx-1" :src=badge.img :title=badge.info />
       </div>
-      {{ message.author }}:
-      </p>
+      <p class="inline" :style='`color: ${message.color};`'>{{ message.author }}: </p>
+      
+    </div>
       <p class="chat-message" v-html="message.html"></p>
     </div>
   </div>
@@ -47,15 +54,35 @@ export default {
       messages: [],
       showModal: false,
       scrollHint: false,
-      maxScrollback: localStorage.getItem("maxScrollback") || 500,
-      textSize: localStorage.getItem("textSize") || 1.8,
-      emoteSize: localStorage.getItem("emoteSize") || 1,
-      showTimestamps: localStorage.getItem("showTimestamps") || true,
-      showBadges: localStorage.getItem("showBadges") || true,
-      badgeSize: localStorage.getItem("badgeSize") || 1,
+      maxScrollback: parseInt(localStorage.getItem("maxScrollback")) || 500,
+      fontSize: localStorage.getItem("fontSize"),
+      emoteSize: localStorage.getItem("emoteSize"),
+      showTimestamps: this.getBoolFromLocalStorage("showTimestamps", true),
+      showBadges: this.getBoolFromLocalStorage("showBadges", true),
     }
   },
+  watch: {
+    maxScrollback(val) { localStorage.maxScrollback = val; },
+    fontSize(val) {
+      this.setRootCSS("--font-size", val + "rem")
+      localStorage.fontSize = val;
+    },
+    emoteSize(val) {
+      this.setRootCSS("--emote-height", val + "rem")
+      localStorage.emoteSize = val;
+    },
+    showTimestamps(val) { localStorage.showTimestamps = val; },
+    showBadges(val) { localStorage.showBadges = val; },
+  },
   methods: {
+    getBoolFromLocalStorage: function (key, _default) {
+      if (localStorage.getItem(key) === null)
+        return _default;
+      return (localStorage.getItem(key) === "true")
+    },
+    setRootCSS: function (key, val) {
+      document.documentElement.style.setProperty(key, val);
+    },
     scrollToBottom: function () {
       this.scrollHint = false;
       window.scrollTo(0, document.body.scrollHeight);
@@ -63,6 +90,17 @@ export default {
     scrollHandler: function () {
       const scroll = window.scrollY + window.innerHeight;
       this.scrollHint = document.body.offsetHeight - scroll >= 100
+    },
+    getCurrentTime: function () {
+      var date = new Date();
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+
+      // Add leading zeros if necessary
+      hours = hours < 10 ? "0" + hours : hours;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+
+      return hours + ":" + minutes;
     },
     unableToConnectMessage: function () {
       this.messages.push({
@@ -73,17 +111,12 @@ export default {
       })
     }
   },
-  watch: {
-    maxScrollback(val) { localStorage.maxScrollback = val; },
-    textSize(val) { localStorage.textSize = val; },
-    emoteSize(val) { localStorage.emoteSize = val; },
-    showTimestamps(val) { localStorage.showTimestamps = val; },
-    showBadges(val) { localStorage.showBadges = val; },
-    badgeSize(val) { localStorage.badgeSize = val; },
-  },
   created() {
     window.addEventListener('scroll', this.scrollHandler)
+
     const connectionTimeout = setTimeout(this.unableToConnectMessage, 5000);
+    const CHANNEL_NAME = this.$route.params.username
+
 
     /*
 
@@ -97,11 +130,9 @@ export default {
     - catch banned users and delete messages
     */
 
-    // Idk if these are really something that requires safeguarding..
-    // Needed for emotes & badges
-    emoteParser.setTwitchCredentials("h246g1a2yne9xisxqs9bnncxlx3ycs", "rv1gxla1c5aersfohwf0zty83rkk14");
 
-    const CHANNEL_NAME = this.$route.params.username
+    emoteParser.setTwitchCredentials("h246g1a2yne9xisxqs9bnncxlx3ycs", "rv1gxla1c5aersfohwf0zty83rkk14");
+    emoteParser.loadAssets(CHANNEL_NAME);
 
     const client = new tmi.Client({
       options: { debug: false, skipMembership: true },
@@ -111,7 +142,7 @@ export default {
     client.connect()
     client.on("join", (channel, username, self) => {
       clearInterval(connectionTimeout)
-      // Show a connected message~
+      // Show a connected message
       this.messages.push({
         html: "Connected to " + channel,
         author: "Status",
@@ -120,18 +151,17 @@ export default {
 
     });
 
-    emoteParser.loadAssets(CHANNEL_NAME);
+
 
     client.on('message', (channel, userstate, message, self) => {
       const m = {
         html: emoteParser.replaceEmotes(message, userstate, channel, self),
         emotes: emoteParser.getEmotes(message, userstate, channel, self),
         author: userstate["display-name"],
+        timestamp: this.getCurrentTime(),
         badges: emoteParser.getBadges(userstate, channel),
         color: userstate.color,
       }
-
-      console.log(m.html)
 
       // Replace "<img class" with the "<img title='' class" to let users 
       // to hover over to see what the emote code is
@@ -160,18 +190,24 @@ export default {
 ::v-deep .modal-container {
   display: flex;
   justify-content: center;
+  width: 100%;
   align-items: center;
 }
 
 ::v-deep .modal-content {
+  width: 50vw;
   position: relative;
   display: flex;
   flex-direction: column;
   margin: 0 1rem;
   padding: 1rem;
-  border: 1px solid #e2e8f0;
   border-radius: 0.25rem;
-  background: #fff;
+  border-color: #2d3748;
+  background-color: #1a202c;
+}
+
+.modal-content p {
+  color: white;
 }
 
 .modal__title {
@@ -187,12 +223,6 @@ export default {
 }
 </style>
 
-<style scoped>
-.dark-mode div::v-deep .modal-content {
-  border-color: #2d3748;
-  background-color: #1a202c;
-}
-</style>
 <style>
 :root {
   --font-base: "Inter", "Roobert", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -214,6 +244,8 @@ export default {
   --line-height-body: 1.5;
   --line-height-heading: 1.2;
   --base-rem-unit: 10;
+  --emote-height: 2rem;
+  --font-size: 2rem;
 }
 
 .scrollToBottomHint {
@@ -247,7 +279,6 @@ body {
 }
 
 .author {
-  font-size: var(--font-size-4);
   text-shadow: 0px 0px 1px #fff, 1px 1px 4px #ccc;
   display: inline;
   color: white;
@@ -255,15 +286,23 @@ body {
 }
 
 .chat-message {
-  font-size: var(--font-size-4);
   color: white;
   display: inline;
 }
 
+.cm-parent {
+  font-size: var(--font-size);
+}
+
+.timestamp {
+  font-size:.4em;
+  vertical-align: text-bottom;
+}
+
 .message-emote {
   display: inline;
-  margin: 1vw;
-  height: 1vw;
+  margin-inline: .1rem;
+  height: var(--emote-height);
 }
 
 .badges {
@@ -271,7 +310,7 @@ body {
 }
 
 .badge {
-  width: 1vw;
+  width: 1em;
   display: inline;
 }
 </style>
