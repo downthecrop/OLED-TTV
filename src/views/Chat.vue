@@ -1,20 +1,22 @@
 <template>
   <div class="wrapper">
     <div>
-    <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
-      <button class="modal__close" @click="showModal = false">
-        <mdi-close></mdi-close>X
-      </button>
-      <span class="modal__title">Settings</span>
-      <div class="modal__content">
-        <p>Something <input type="checkbox" id="vehicle2" name="vehicle2" value="Car"></p>
-        <p>Something2 <input type="checkbox" id="vehicle2" name="vehicle2" value="Car"></p>
-        <p>Something3 <input type="checkbox" id="vehicle2" name="vehicle2" value="Car"></p>
-        <p>Something4 <input type="checkbox" id="vehicle2" name="vehicle2" value="Car"></p>
-      </div>
-    </vue-final-modal>
-    <v-button @click="showModal = true">Open modal</v-button>
-  </div>
+      <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
+        <button class="modal__close" @click="showModal = false">
+          <mdi-close></mdi-close>X
+        </button>
+        <span class="modal__title">Settings</span>
+        <div class="modal__content">
+          <p>Show Timesamps <input type="checkbox" v-model="showTimestamps"></p>
+          <p>Show Badges <input type="checkbox" v-model="showBadges"></p>
+          <p>Max Message History <input type="number" v-model="maxScrollback"></p>
+          <p>Text Size <input type="number" v-model="textSize"></p>
+          <p>Emote Size <input type="number" v-model="emoteSize"></p>
+          <p>Badge Size <input type="number" v-model="badgeSize"></p>
+        </div>
+      </vue-final-modal>
+      <v-button @click="showModal = true">Open modal</v-button>
+    </div>
     <!-- Add each message -->
     <div v-if="scrollHint" class="scrollToBottomHint" @click="scrollToBottom">
       <p style="text-align:center;">Scroll to bottom</p>
@@ -46,11 +48,11 @@ export default {
       showModal: false,
       scrollHint: false,
       maxScrollback: localStorage.getItem("maxScrollback") || 500,
-      textSize: localStorage.getItem("textSize") || "1.8rem",
-      emoteSize: localStorage.getItem("emoteSize") || "1vw",
-      showBadges: localStorage.getItem("showTimestamps") || true,
+      textSize: localStorage.getItem("textSize") || 1.8,
+      emoteSize: localStorage.getItem("emoteSize") || 1,
+      showTimestamps: localStorage.getItem("showTimestamps") || true,
       showBadges: localStorage.getItem("showBadges") || true,
-      badgeSize: localStorage.getItem("badgeSize") || "1vw",
+      badgeSize: localStorage.getItem("badgeSize") || 1,
     }
   },
   methods: {
@@ -62,7 +64,7 @@ export default {
       const scroll = window.scrollY + window.innerHeight;
       this.scrollHint = document.body.offsetHeight - scroll >= 100
     },
-    unableToConnectMessage: function() {
+    unableToConnectMessage: function () {
       this.messages.push({
         html: "Connect timedout. Check that the channel name is correct.",
         author: "ERROR",
@@ -70,6 +72,14 @@ export default {
         badges: []
       })
     }
+  },
+  watch: {
+    maxScrollback(val) { localStorage.maxScrollback = val; },
+    textSize(val) { localStorage.textSize = val; },
+    emoteSize(val) { localStorage.emoteSize = val; },
+    showTimestamps(val) { localStorage.showTimestamps = val; },
+    showBadges(val) { localStorage.showBadges = val; },
+    badgeSize(val) { localStorage.badgeSize = val; },
   },
   created() {
     window.addEventListener('scroll', this.scrollHandler)
@@ -100,23 +110,22 @@ export default {
 
     client.connect()
     client.on("join", (channel, username, self) => {
-        clearInterval(connectionTimeout)
-        // Show a connected message~
-        this.messages.push({
-        html: "Connected to "+channel,
+      clearInterval(connectionTimeout)
+      // Show a connected message~
+      this.messages.push({
+        html: "Connected to " + channel,
         author: "Status",
         badges: []
       })
-      
+
     });
 
     emoteParser.loadAssets(CHANNEL_NAME);
 
     client.on('message', (channel, userstate, message, self) => {
-      //console.log(userstate)
       const m = {
         html: emoteParser.replaceEmotes(message, userstate, channel, self),
-        emotes: emoteParser.getEmotes(message, userstate, channel, self).reverse(),
+        emotes: emoteParser.getEmotes(message, userstate, channel, self),
         author: userstate["display-name"],
         badges: emoteParser.getBadges(userstate, channel),
         color: userstate.color,
@@ -127,12 +136,12 @@ export default {
       // Replace "<img class" with the "<img title='' class" to let users 
       // to hover over to see what the emote code is
       for (const emote of m.emotes) {
-        const re = new RegExp(`<img class="message-emote" ?src="${emote.img}"/>`,'g');
+        const re = new RegExp(`<img class="message-emote" ?src="${emote.img}"/>`, 'g');
         m.html = m.html.replaceAll(re, `<img title="${emote.code}" class="message-emote" src="${emote.img}"/>`);
       }
 
       this.messages.push(m)
-      if(this.messages.length > this.maxScrollback)
+      if (this.messages.length > this.maxScrollback)
         this.messages.shift()
       if (!this.scrollHint) {
         this.$nextTick(this.scrollToBottom)
@@ -153,6 +162,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 ::v-deep .modal-content {
   position: relative;
   display: flex;
@@ -163,11 +173,13 @@ export default {
   border-radius: 0.25rem;
   background: #fff;
 }
+
 .modal__title {
   margin: 0 2rem 0 0;
   font-size: 1.5rem;
   font-weight: 700;
 }
+
 .modal__close {
   position: absolute;
   top: 0.5rem;
@@ -249,7 +261,7 @@ body {
 }
 
 .message-emote {
-  display:inline;
+  display: inline;
   margin: 1vw;
   height: 1vw;
 }
