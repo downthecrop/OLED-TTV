@@ -20,22 +20,22 @@
               type="number" v-model="emoteSize" placeholder="2"></p>
         </div>
       </vue-final-modal>
-      <v-button @click="showModal = true">Open modal</v-button>
+      <button class="top-4 right-4 fixed text-4xl text-gray-900" @click="showModal = true"><font-awesome-icon icon="fa-solid fa-gear" /></button>
     </div>
     <!-- Add each message -->
     <div v-if="scrollHint" class="scrollToBottomHint" @click="scrollToBottom">
       <p style="text-align:center;">Scroll to bottom</p>
     </div>
-    <div class="break-all cm-parent" v-for="message in messages">
+    <div class="break-all cm-parent align-middle" v-for="message in messages">
       <div class="author">
-      <div v-if="showTimestamps" class="inline-block align-baseline text-gray-300" >{{ message.timestamp }}</div>
+      <div v-if="showTimestamps" class="inline-block align-middle text-white" style="text-shadow: none; font-weight: 100; font-size: .7em;">{{ message.timestamp }} </div>
       <div v-if="showBadges" class="badges" v-for="badge in message.badges">
         <img class="badge mx-1" :src=badge.img :title=badge.info />
       </div>
-      <p class="inline" :style='`color: ${message.color};`'>{{ message.author }}: </p>
-      
+      <p class="inline align-middle" :style='`color: ${message.color};`'>{{ message.author }}: </p>
+      <p class="chat-message align-middle" v-html="message.html"></p>
     </div>
-      <p class="chat-message" v-html="message.html"></p>
+      
     </div>
   </div>
 </template>
@@ -186,43 +186,6 @@ export default {
 
 </script>
 
-<style scoped>
-::v-deep .modal-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  align-items: center;
-}
-
-::v-deep .modal-content {
-  width: 50vw;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin: 0 1rem;
-  padding: 1rem;
-  border-radius: 0.25rem;
-  border-color: #2d3748;
-  background-color: #1a202c;
-}
-
-.modal-content p {
-  color: white;
-}
-
-.modal__title {
-  margin: 0 2rem 0 0;
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.modal__close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-}
-</style>
-
 <style>
 :root {
   --font-base: "Inter", "Roobert", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -266,6 +229,40 @@ body {
   padding: 0px;
   font-family: var(--font-base);
   background-color: black;
+}
+
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  width: 50vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0 1rem;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  border-color: #2d3748;
+  background-color: #1a202c;
+}
+
+.modal-content p {
+  color: white;
+}
+
+.modal__title {
+  margin: 0 2rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.modal__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
 }
 
 .wrapper1 {
