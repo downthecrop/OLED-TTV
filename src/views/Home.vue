@@ -4,6 +4,24 @@
     <div class="wave"></div>
     <div class="wave"></div>
   </div>
+  <div class="top-6 right-6 fixed text-4xl text-gray-800">
+    
+    <li class="inline-block">
+      <a target="_new" href="https://twitter.com/downthecrop">
+        <font-awesome-icon icon="fa-brands fa-twitter" />
+      </a>
+    </li>
+    <li class="inline-block">
+      <a target="_new" href="https://github.com/downthecrop">
+        <font-awesome-icon icon="fa-brands fa-github" />
+      </a>
+    </li>
+    <li class="inline-block">
+      <a target="_new" href="https://www.twitch.tv/downthecrop">
+        <font-awesome-icon icon="fa-brands fa-twitch" />
+      </a>
+    </li>
+  </div>
   <div class="max-w-5xl p-36 pt-40 mx-auto">
     <div class="mb-2 text-xs tracking-wider font-semibold" style="color: rgb(93, 137, 179);">@downthecrop</div>
     <div class="font-bold text-white text-3xl leading-tightest mb-4">OLED-TTV</div>
@@ -22,7 +40,7 @@
           style="background: linear-gradient(135deg, rgb(28, 28, 33) 0%, rgb(15, 19, 26) 100%); color: rgb(221, 232, 240);"
           :placeholder="placeholder" required>
         <button type="submit"
-          class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-slate-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800">&#x21A9;</button>
+          class="text-white absolute right-2.5 bottom-2.5 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-slate-500 dark:hover:bg-slate-700 dark:focus:ring-blue-800">&#x21A9;</button>
       </div>
     </form>
   </div>
