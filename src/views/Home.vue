@@ -1,18 +1,31 @@
 <template>
-<div class="w-full p-36 pt-40 mx-auto">
-  <div class="uppercase mb-2 text-xs tracking-wider font-semibold" style="color: rgb(93, 137, 179);">Project</div>
-  <div class="font-bold text-white text-3xl leading-tightest mb-4">OLED-TTV</div>
-  <form @submit.prevent="openChat"> 
+  <div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+  <div class="max-w-5xl p-36 pt-40 mx-auto">
+    <div class="mb-2 text-xs tracking-wider font-semibold" style="color: rgb(93, 137, 179);">@downthecrop</div>
+    <div class="font-bold text-white text-3xl leading-tightest mb-4">OLED-TTV</div>
+    <form @submit.prevent="openChat">
       <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
       <div class="relative">
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-          </div>
-          <input v-model="channel" autofocus type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" style="background: linear-gradient(135deg, rgb(28, 28, 33) 0%, rgb(15, 19, 26) 100%); color: rgb(221, 232, 240);" :placeholder="placeholder" required>
-          <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-slate-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800">&#x21A9;</button>
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor"
+            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+        <input v-model="channel" autofocus type="search" id="default-search"
+          class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          style="background: linear-gradient(135deg, rgb(28, 28, 33) 0%, rgb(15, 19, 26) 100%); color: rgb(221, 232, 240);"
+          :placeholder="placeholder" required>
+        <button type="submit"
+          class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-slate-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800">&#x21A9;</button>
       </div>
-  </form>
-</div>
+    </form>
+  </div>
 
 </template>
 
@@ -23,64 +36,64 @@ export default {
       channel: "",
       placeholder: "Channel name...                   ",
       placeholderNames: [
-      "Cowsep",
-      "AlphaXsc2",
-      "BotezLive",
-      "Doublelift",
-      "imls",
-      "midbeast",
-      "ESL_SC2",
-      "Caedrel",
-      "Mmmothz",
-      "묵아_",
-      "lol_nemesis",
-      "kaitlyn",
-      "DeMusliM",
-      "SCVODArchives",
-      "shroud",
-      "mifflemuffle",
-      "Emiru",
-      "ilysuiteheart",
-      "charmies",
-      "georgehotz",
-      "dopa24",
-      "marmellohh",
-      "Kaztalek",
-      "RotterdaM08",
-      "TastelessTV",
-      "LCS",
-      "StarCraft",
-      "ZombieGrub",
-      "ClintStevens",
-      "picklemancer",
-      "Sour Not Hardcore",
-      "Artosis",
-      "ScarlettM",
-      "Slicklikedat",
-      "Chennerz",
-      "itsHafu",
-      "j_blow",
-      "loltyler1",
-      "BombJin",
-      "Sovitia",
-      "GSL",
-      "Zfg1"
+        "Cowsep",
+        "AlphaXsc2",
+        "BotezLive",
+        "Doublelift",
+        "imls",
+        "midbeast",
+        "ESL_SC2",
+        "Caedrel",
+        "Mmmothz",
+        "묵아_",
+        "lol_nemesis",
+        "kaitlyn",
+        "DeMusliM",
+        "SCVODArchives",
+        "shroud",
+        "mifflemuffle",
+        "Emiru",
+        "ilysuiteheart",
+        "charmies",
+        "georgehotz",
+        "dopa24",
+        "marmellohh",
+        "Kaztalek",
+        "RotterdaM08",
+        "TastelessTV",
+        "LCS",
+        "StarCraft",
+        "ZombieGrub",
+        "ClintStevens",
+        "picklemancer",
+        "Sour Not Hardcore",
+        "Artosis",
+        "ScarlettM",
+        "Slicklikedat",
+        "Chennerz",
+        "itsHafu",
+        "j_blow",
+        "loltyler1",
+        "BombJin",
+        "Sovitia",
+        "GSL",
+        "Zfg1"
       ],
       placeholderTyping: false,
     }
   },
   methods: {
-    openChat: function() {
+    openChat: function () {
       this.$router.push(this.channel)
     },
-    autoTypePleaceholder: function(){
+    autoTypePleaceholder: function () {
       const EXTENSION = "...     "
-      if(!this.placeholderTyping){
-        this.placeholder = this.placeholder.substring(0,this.placeholder.length-1);
+      if (!this.placeholderTyping) {
+        this.placeholder = this.placeholder.substring(0, this.placeholder.length - 1);
         this.placeholderTyping = this.placeholder == "";
       } else {
-        if(this.placeholder == this.placeholderNames[0]){
-          this.placeholderNames.push(this.placeholderNames.shift().replace(EXTENSION,""));
+        if (this.placeholder == this.placeholderNames[0]) {
+          this.placeholderNames.push(this.placeholderNames.shift().replace(EXTENSION, ""));
           this.placeholderNames[0] = this.placeholderNames[0] + EXTENSION
           this.placeholderTyping = false;
         } else {
@@ -91,7 +104,7 @@ export default {
   },
   mounted() {
     // Just a cute little animation on the search box. shuffle the names first.
-    this.placeholderNames.sort(function(){return 0.5 - Math.random()});
+    this.placeholderNames.sort(function () { return 0.5 - Math.random() });
     setInterval(this.autoTypePleaceholder, 180);
   }
 }
@@ -121,61 +134,58 @@ export default {
   --base-rem-unit: 10;
 }
 
-.scrollToBottomHint {
-  z-index: 999;
-  border-radius: 4px;
-  margin: 10px;
-  font-size: var(--font-size-4);
-  position: fixed;
-  color: white;
-  padding: 10px;
-  bottom: 0px;
-  width: 100%;
-  background-color: rgba(28, 22, 22, 0.9);
-}
-
 body {
-  margin: 0px;
-  padding: 0px;
-  font-family: var(--font-base);
+  margin: auto;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: auto;
+  background: linear-gradient(315deg, rgba(51, 51, 51, 1) 0%, rgba(0, 0, 0, 1) 100%);
+  animation: gradient 15s ease infinite;
+  background-size: 400% 400%;
   background-attachment: fixed;
-  background-color:black;
 }
 
-.wrapper1 {
-  transform: rotate(90deg);
-  transform-origin: bottom left;
-  position: absolute;
-  top: -100vw;
-  height: 100vw;
-  width: 100vh;
-  color: #fff;
+.wave {
+  background: rgba(93, 137, 179, 0.03);
+  border-radius: 1000% 1000% 0 0;
+  position: fixed;
+  width: 200%;
+  height: 10em;
+  animation: wave 10s -3s linear infinite;
+  transform: translate3d(0, 0, 0);
+  bottom: 0;
+  left: 0;
+  z-index: -1;
 }
 
-.author {
-  font-size: var(--font-size-4);
-  text-shadow: 0px 0px 1px #fff, 1px 1px 4px #ccc;
-  display: inline;
-  color: white;
-  font-weight: bold;
+.wave:nth-of-type(2) {
+  bottom: -1.25em;
+  animation: wave 18s linear reverse infinite;
 }
 
-.chat-message {
-  font-size: var(--font-size-4);
-  color: white;
-  display: inline;
+.wave:nth-of-type(3) {
+  bottom: -2.5em;
+  animation: wave 20s -1s reverse infinite;
 }
 
-.message-emote {
-  height: 30px;
-}
+@keyframes wave {
+  2% {
+    transform: translateX(1);
+  }
 
-.badges {
-  display: inline;
-}
+  25% {
+    transform: translateX(-25%);
+  }
 
-.badge {
-  width: 25px;
-  display: inline;
+  50% {
+    transform: translateX(-50%);
+  }
+
+  75% {
+    transform: translateX(-25%);
+  }
+
+  100% {
+    transform: translateX(1);
+  }
 }
 </style>
