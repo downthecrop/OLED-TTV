@@ -3,6 +3,7 @@ import Chat from './views/Chat.vue'
 import Home from './views/Home.vue'
 
 export const router = createRouter({
+  base: '/routes-sandbox/',
   history: createWebHistory(),
   routes: [{ path: '/:username', component: Chat },
   { path: '/', component: Home }],
