@@ -1,24 +1,24 @@
-# t
+# OLED-TTV
 
-## Project setup
-```
-yarn install
-```
+![Preview](https://i.imgur.com/3en3fHm.png)
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+Twitch Chat with BTTV, FFZ, 7tv, emotes. OLED Friendly!
 
-### Compiles and minifies for production
-```
-yarn build
-```
+> built with Vue + tmi.js
 
-### Lints and fixes files
-```
-yarn lint
-```
+# Install
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+`npm i`
+
+# Dev
+
+`npm run dev`
+
+# Build
+
+`npm run build`
+
+# Push New Release to gh-pages
+
+`git add dist && git commit -m "adding dist subtree"`
+`git subtree push --prefix dist origin gh-pages`
