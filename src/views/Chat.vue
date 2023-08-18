@@ -131,7 +131,10 @@ export default {
     */
 
 
-    emoteParser.setTwitchCredentials("h246g1a2yne9xisxqs9bnncxlx3ycs", "rv1gxla1c5aersfohwf0zty83rkk14");
+    //emoteParser.setDebug(true);
+
+    // Info on generating oauth in README
+    emoteParser.setTwitchCredentials("h246g1a2yne9xisxqs9bnncxlx3ycs", "oauth:jjeumsucpo74ths784alzbceta0k1z"); 
     emoteParser.loadAssets(CHANNEL_NAME);
 
     const client = new tmi.Client({
@@ -164,10 +167,16 @@ export default {
       }
 
       // Replace "<img class" with the "<img title='' class" to let users 
-      // to hover over to see what the emote code is
+      // hover over to see what the emote code is
       for (const emote of m.emotes) {
+        
+        // some weird bug with TMI repsones gives us the wrong link starting with two
+        // https:https:// ... We just remove the first one in that case.
+        let tempEmoteURL = emote.img.replace("https:https://","https://");
+        console.log(tempEmoteURL);
+
         const re = new RegExp(`<img class="message-emote" ?src="${emote.img}"/>`, 'g');
-        m.html = m.html.replaceAll(re, `<img title="${emote.code}" class="message-emote" src="${emote.img}"/>`);
+        m.html = m.html.replaceAll(re, `<img title="${emote.code}" class="message-emote" src="${tempEmoteURL}"/>`);
       }
 
       this.messages.push(m)
