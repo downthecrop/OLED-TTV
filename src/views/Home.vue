@@ -22,7 +22,7 @@
       </a>
     </li>
   </div>
-  <div class="max-w-5xl p-36 pt-40 mx-auto">
+  <div class="max-w-5xl p-12 pt-40 mx-auto">
     <div class="mb-2 text-xs tracking-wider font-semibold" style="color: rgb(93, 137, 179);">@downthecrop</div>
     <div class="font-bold text-white text-3xl leading-tightest mb-4">OLED-TTV</div>
     <form @submit.prevent="openChat">
